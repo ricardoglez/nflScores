@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const baseURL = 'https://localhost:4000/api/v1/';
+const baseURL = 'http://localhost:4000/api/v1/';
 
 const API = {
     storeScores: ( scoresData ) => {

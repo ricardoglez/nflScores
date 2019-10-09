@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-
+const Matches = require('./models/Matches'); 
 const mongoOptions = {  useNewUrlParser: true ,  useUnifiedTopology: true };
 const hapi = require('hapi');
 
@@ -24,11 +24,13 @@ const init = async () => {
          path: '/api/v1/matches',
          handler: ( req, reply ) => {
             console.log('Post matches into server');
-            const { teams, id, weekId } = req.payload;
-            const matches = new Matches({
-                teams, id, weekId
+            const { matches, weekId } = req.payload;
+            console.log('matches',matches)
+            console.log('weekId',weekId)
+            const storeMatches = new Matches({
+                matches, weekId
             });
-            return matches.save();
+            return storeMatches.save();
          }
      }
   ] );

@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 const Team = require('./Team');
 
 const MatchesSchema = new Schema({
-    matches:Object,
-    weekId: Number
+    matches  : Object,
+    weekId   : Number
 });
 
-module.exports = MatchesSchema;
+module.exports = mongoose.model( 'MAtches', MatchesSchema );
