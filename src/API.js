@@ -7,7 +7,11 @@ const API = {
         console.log('Storing Matches from Week ', scoresData.weekId)
         console.log(scoresData)
         return axios.post( baseURL+'matches', scoresData );        
+    },
+    fetchMatches: () => {
+        return axios.get(baseURL+'matches');
     }
+
 }
 
 module.exports = API;
