@@ -1,23 +1,34 @@
 {
-  "name": "nflScores",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "node ./src/index.js",
-    "runServer": "nodemon ./src/server/index.js"
-  },
-  "dependencies": {
-    "axios": "^0.19.0",
-    "cheerio": "^1.0.0-rc.3",
-    "dotenv": "^8.1.0",
-    "mongodb": "^3.3.2",
-    "mongoose": "^5.7.4",
-    "nodemon": "^1.19.3"
-  },
-  "devDependencies": {
-    "graphiql": "^0.15.1",
-    "graphql": "^14.5.8",
-    "hapi": "^18.1.0"
-  }
+    "name": "nflScores",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start:front": "parcel ./public/index.html",
+        "start:scrapper": "node ./src/index.js",
+        "runServer": "nodemon ./src/server/index.js"
+    },
+    "dependencies": {
+        "@material-ui/core": "^4.5.0",
+        "axios": "^0.19.0",
+        "cheerio": "^1.0.0-rc.3",
+        "dotenv": "^8.1.0",
+        "inert": "^5.1.3",
+        "mongodb": "^3.3.2",
+        "mongoose": "^5.7.4",
+        "nodemon": "^1.19.3",
+        "react": "^16.10.2",
+        "react-dom": "^16.10.2",
+        "thenby": "^1.3.0",
+        "yargs": "^14.2.0"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-react": "^6.24.1",
+        "graphiql": "^0.15.1",
+        "graphql": "^14.5.8",
+        "hapi": "^18.1.0",
+        "parcel-bundler": "^1.12.4"
+    }
 }
