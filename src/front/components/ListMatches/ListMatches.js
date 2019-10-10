@@ -6,6 +6,7 @@ import {
     CardHeader, 
     CardContent,
     Typography,
+    Paper,
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
@@ -13,7 +14,11 @@ import {
 import ExpandMoreIcon  from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles( theme => ({
+    paper:{
+        background:'rgba(20,20,20,.4)',
+        padding: theme.spacing(2)
+    },
     card: {
       minWidth: 275,
     },
@@ -37,7 +42,7 @@ const useStyles = makeStyles({
     pos: {
       marginBottom: 12,
     },
-  });
+  }));
 
 const WeeklyMatches = ( {weekId, matches , id } ) => {
     let [ totalPts, setTotalPts ] = useState(0);
@@ -85,9 +90,9 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
            obj[matchKey] = { diff: diff, winner: winner, winnerType:  winnerType } 
            return (
                <Grid item xs={12} >
-                   <Typography> { matches[matchKey].teams.home.name } vs { matches[matchKey].teams.away.name } </Typography>
-                   <Typography> {winner.name} ganó por</Typography>
-                   <Typography className={classes.importantNumber}> { diff } pts </Typography>
+                   <Typography color="textSecondary"> { matches[matchKey].teams.home.name } vs { matches[matchKey].teams.away.name } </Typography>
+                   <Typography color="textSecondary"> <strong>{winner.name}</strong> ganó por</Typography>
+                   <Typography color="textSecondary" className={classes.importantNumber}> { diff } pts </Typography>
                </Grid>
            )
         });
@@ -175,16 +180,20 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
 }
 
 const ListMatches = ({ weeks }) => {
-    return ( 
-        <Grid container direction={'row'} alignItems='center' spacing={3}>
-            { weeks.map( week => (
-                <Grid item xs={6}>
-                    <WeeklyMatches key={ week._id} weekId={week.weekId} matches={week.matches} id={ week._id } /> 
-                </Grid>
-            )
-            )}
-        </Grid>
 
+    const classes = useStyles();
+    return ( 
+        <Paper className={ classes.paper}>
+            <Grid container direction={'row'} alignItems='center' spacing={2}>
+                    { 
+                        weeks.map( week => (
+                        <Grid item xs={6} >
+                            <WeeklyMatches key={ week._id} weekId={week.weekId} matches={week.matches} id={ week._id } /> 
+                        </Grid>
+                        ))
+                    }
+            </Grid>
+        </Paper>
     )
 }
 
