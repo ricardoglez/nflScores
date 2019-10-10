@@ -44,10 +44,10 @@ const extractScoresAndWinners = ( matchesList, week ) => {
                 teams.home.score = parseInt(cheerio(scoresElements[0]).text());
                 teams.away.score = parseInt(cheerio(scoresElements[1]).text());
         
-                if( cheerio(teamsElements[0]).find('span.marker').length < 1){
+                if( cheerio(teamsElements[0]).find('span.marker').length >= 1 ){
                     teams.home.isWinner = true;
                 }
-                else if( cheerio(teamsElements[1]).find('span.marker').length < 1){
+                else if( cheerio(teamsElements[1]).find('span.marker').length >= 1){
                     teams.away.isWinner = true;
                 }
                 
