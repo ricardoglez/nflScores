@@ -8,8 +8,12 @@ const API = {
         console.log(scoresData)
         return axios.post( baseURL+'matches', scoresData );        
     },
-    fetchMatches: () => {
-        return axios.get(baseURL+'matches');
+    fetchMatches: (week) => {
+        console.log('Fetch This Week :' ,week)
+        return axios.get(baseURL+'matches/'+week);
+    },
+    getCurrentWeek:( ) =>{
+        return axios.get(baseURL+'currentWeek');
     }
 
 }
