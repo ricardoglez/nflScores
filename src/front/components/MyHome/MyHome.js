@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../../API';
+import ErrorComponent from '../ErrorComponent';
 import ListMatches from '../ListMatches';
 import { Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import firstBy from 'thenby';
+import useFetchMatches from '../../../hooks/useFetchMatches';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,25 +24,27 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const MyHome = () => {
-    const [ spacing, setSpacing ]     = useState(2);
-    const [ matchesList, setMatches ] = useState(null);
+    // const [ matchesList, setMatches ] = useState( null );
     const [ isMounted, setMounted ]   = useState(false);
+    const [currentWeek, setCurrentWeek ] = useState( 1 );
+    // const [ isError, setError ]   = useState(false);
+    
+    const res = useFetchMatches(1);
+
+    const matchesList = res.response;
+    const isError = res.isError;
 
     const classes = useStyles();
 
-    useEffect( () => {
-        API.fetchMatches(  )
-        .then( response => {
-            console.log(response.data)
-            let sortedData = response.data.sort( 
-                firstBy( 'weekId' )
-            );
-            
-            setMatches( sortedData );
-
-            setMounted(true)
-        }) 
-    }, [])
+      useEffect( () => {
+        API.getCurrentWeek()
+          .then( response => {
+            setCurrentWeek(response.data);
+          })
+          .catch( error => {
+            console.error(error)
+          });
+      }, []);
 
     return (
         <Grid 
@@ -49,13 +53,14 @@ const MyHome = () => {
             justify="center"
             alignItems="center">
             <h3>NFL Review Semanal</h3>
-         {
-             isMounted
-             ?
-             <ListMatches weeks={matchesList}/>
-             :
-             <CircularProgress className={ classes.progress }/>
-         }
+            {
+                !res.response || res.isLoading
+                ?
+                <CircularProgress className={ classes.progress }/>
+                :
+                <ListMatches weeks={matchesList}/>
+             }
+             <ErrorComponent isError={isError }/>
         </Grid>
     )
 }

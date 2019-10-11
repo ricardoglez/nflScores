@@ -5,6 +5,7 @@ const Matches = require('./models/Matches');
 const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 const hapi = require('hapi');
 const Inert = require('inert');
+const { getCurrentWeek } = require('../scrapper');
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds333238.mlab.com:33238/scores_nfl`, mongoOptions);
 mongoose.connection.once('open', () => {
     console.log('connected to db!');
@@ -47,10 +48,41 @@ const init = async() => {
                 }
             },
             method: 'GET',
-            path: '/api/v1/matches',
-            handler: function(req, reply) {
-                 
-                return Matches.find()
+            path: '/api/v1/matches/{week*}',
+            handler: async ( req, reply ) =>  {
+                try {
+                    //console.log('HAndle get MAtches', req );
+                    const week = req.params.week;
+                    let matches = await Matches.find( { weekId: { $eq: week } } );
+                    return reply.response(matches);
+                } 
+                catch( error ){
+                    console.error('Error GET matches');
+                    console.error(error);
+                    return reply.response(error).code(500);
+                }
+            }
+        },
+        {
+            config: {
+                cors: {
+                    origin: ['*'],
+                    additionalHeaders: ['cache-control', 'x-requested-with']
+                }
+            },
+            method: 'GET',
+            path: '/api/v1/currentWeek',
+            handler: async ( req, reply ) => {
+                console.log('Get Current Week');
+                try {
+                    let currentWeek = await getCurrentWeek(); 
+                    return reply.response(currentWeek);
+                } 
+                catch( error ){
+                    console.error('Error GET currentWeek');
+                    console.error(error);
+                    return reply.response(error).code(500);
+                }
             }
         },
         {
