@@ -15,10 +15,9 @@ const init = async() => {
 
 
     const server = hapi.server({
-        
         routes: {
             files: {
-                relativeTo: Path.join(__dirname, '../../public')
+                relativeTo: Path.join(__dirname, '../../dist')
             }
         },
         port: 4000,
@@ -50,6 +49,7 @@ const init = async() => {
             method: 'GET',
             path: '/api/v1/matches',
             handler: function(req, reply) {
+                 
                 return Matches.find()
             }
         },

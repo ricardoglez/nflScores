@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start:front": "parcel ./public/index.html",
+        "start:front": "parcel ./src/index.html",
         "start:scrapper": "node ./src/index.js",
         "runServer": "nodemon ./src/server/index.js"
     },
