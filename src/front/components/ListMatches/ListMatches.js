@@ -89,7 +89,7 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
            let diff =  winner.score - loser.score;
            obj[matchKey] = { diff: diff, winner: winner, winnerType:  winnerType } 
            return (
-               <Grid item xs={12} >
+               <Grid item xs={12} key={ matchKey }>
                    <Typography color="textSecondary"> { matches[matchKey].teams.home.name } vs { matches[matchKey].teams.away.name } </Typography>
                    <Typography color="textSecondary"> <strong>{winner.name}</strong> ganó por</Typography>
                    <Typography color="textSecondary" className={classes.importantNumber}> { diff } pts </Typography>
@@ -138,13 +138,13 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
             </CardHeader>
             <CardContent>
                 <Typography  color="textSecondary" gutterBottom>
-                    Puntos totales en la semana: <Typography className={classes.points}> { totalPts } </Typography>
+                    Puntos totales en la semana: <strong className={classes.points}> { isNaN(totalPts) ? '-': totalPts } </strong>
                 </Typography>
                 <Typography  color="textSecondary" gutterBottom>
-                    Puntos promedio: <Typography className={classes.points}>{ avgPts }</Typography> 
+                    Puntos promedio: <strong className={classes.points}>{ isNaN( avgPts ) ? '-': avgPts }</strong> 
                 </Typography>
                 <Typography  color="textSecondary" gutterBottom>
-                    Puntos de diferencia promedio: <Typography className={classes.points}>{ avgPointsMatch( matchesDiff ) }</Typography> 
+                    Puntos de diferencia promedio: <strong className={classes.points}>{ isNaN( avgPointsMatch( matchesDiff ) ) ? '-': avgPointsMatch( matchesDiff ) }</strong> 
                 </Typography>
                 <Grid container direction={'row'}>
                     <Grid item xs={6}>
@@ -155,7 +155,6 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
                         <Typography >Ganados Visita</Typography>
                         <Typography className={classes.points}>{ winnerCounter.awayWins}</Typography>
                     </Grid>
-
                 </Grid>
                 <Grid container direction='row'>
                     <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
@@ -173,7 +172,6 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </Grid>
-               
             </CardContent>
         </Card>        
     )
@@ -187,8 +185,8 @@ const ListMatches = ({ weeks }) => {
             <Grid container direction={'row'} alignItems='center' spacing={2}>
                     { 
                         weeks.map( week => (
-                        <Grid item xs={6} >
-                            <WeeklyMatches key={ week._id} weekId={week.weekId} matches={week.matches} id={ week._id } /> 
+                        <Grid item xs={6} key={ week._id} >
+                            <WeeklyMatches  weekId={week.weekId} matches={week.matches} id={ week._id } /> 
                         </Grid>
                         ))
                     }
