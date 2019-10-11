@@ -13,6 +13,20 @@ const fetchScores = async ( year, week ) => {
     return cheerio.load( scoresData.data );
 }
 
+const getCurrentWeek = async ()=> {
+    try{
+        let requestURL = `${baseURL}`;
+        const scoresData = await axios.get( requestURL );
+        let $ = cheerio.load( scoresData.data );
+        let currentWeek = $('.ToggleContainer-button.is-active').text().match(/\d/)[0];
+        console.log( currentWeek );
+        return {success:true , data: currentWeek}
+    }
+    catch(error){
+        return {success:false, error}
+    }
+}
+
 const extractScoresAndWinners = ( matchesList, week ) => {
     return new Promise ( (res, rej ) => {
         try{
@@ -65,4 +79,4 @@ const extractScoresAndWinners = ( matchesList, week ) => {
     
 
 };
-module.exports = { fetchScores, baseURL, extractScoresAndWinners }
+module.exports = { fetchScores, baseURL, extractScoresAndWinners , getCurrentWeek }
