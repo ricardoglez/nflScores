@@ -1,11 +1,18 @@
 import React from 'react';
-import {Paper} from '@material-ui/core';
+import {Paper, Typography, Button } from '@material-ui/core';
 const ErrorComponent = ( { isError , error } ) => {
-    if( !isError ){ return null}
-
+    if( !isError || isError.success ){ return null}
     return(
     <Paper>
-        Error:{ error }
+        <Typography>
+            Error: 
+        </Typography>
+        <Typography>
+            Algo se rompió
+        </Typography>
+        <div>
+            <Button onClick={() => { window.location.reload() }}> Intentar nuevamente </Button>
+        </div>
     </Paper>
     )
 };
