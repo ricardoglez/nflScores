@@ -25,7 +25,7 @@ const useStyles = makeStyles( theme => ({
         color: '#ffff'
     },
     card: {
-      minWidth: 275,
+      minWidth: 100,
     },
     importantNumber: {
         fontSize:'1.5em',
@@ -53,7 +53,7 @@ const useStyles = makeStyles( theme => ({
     },
   }));
 
-const WeeklyMatches = ( {weekId, matches , id } ) => {
+const WeeklyMatches = ( {weekId, matches  } ) => {
     let [ totalPts, setTotalPts ] = useState(0);
     let [ avgPts, setAvgPts ] = useState(0);
     let [ avgDiffPts, setAvgDiffPts ] = useState(0);
@@ -91,6 +91,7 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
 
     const renderMatches = () => {
         let obj= {}
+        console.log(matches);
         let list=  Object.keys( matches ).map( matchKey => {
            let winner = matches[matchKey].teams.home.isWinner ? matches[matchKey].teams.home : matches[matchKey].teams.away;
            let winnerType = matches[matchKey].teams.home.isWinner ? 'home' : 'away';
@@ -142,7 +143,7 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
     }
     let winnerCounter = typeWinnerCounter( matchesDiff );
     return ( 
-        <Card key={ id } className={ classes.card }>
+        <Card key={ weekId } className={ classes.card }>
             <CardHeader title={`Semana #${ weekId }`}>
             </CardHeader>
             <CardContent>
@@ -227,7 +228,9 @@ const WeekInfo = ({ week }) => {
     else {
         return (
             <Grid item className={classes.weekContainer}>
-                <Paper className={ classes.paper }> Week Data </Paper>
+                <Paper className={ classes.paper }>
+                    <WeeklyMatches weekId={week.weekId} matches={weekInfo.matches}  />
+                </Paper>
             </Grid>
             )
     }
@@ -241,7 +244,7 @@ const SelectedWeeks = ({ selectedWeeks }) => {
     let activeWeeks = selectedWeeks.filter( w => w.isActive );
 
      return activeWeeks.map( w => (
-            <Grid  key={w.weekId} container direction={'column'} alignItems={'center'} justify={'center'} > 
+            <Grid key={w.weekId} item > 
                 <WeekInfo week={ w }/> 
             </Grid>
             ) 
