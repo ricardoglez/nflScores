@@ -10,14 +10,19 @@ import {
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
+    CircularProgress,
 } from '@material-ui/core';
 import ExpandMoreIcon  from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles';
+import {API} from '../../../API';
+import useFetchMatches from '../../../hooks/useFetchMatches';
 
 const useStyles = makeStyles( theme => ({
     paper:{
         background:'rgba(20,20,20,.4)',
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        margin: theme.spacing(2),
+        color: '#ffff'
     },
     card: {
       minWidth: 275,
@@ -38,6 +43,10 @@ const useStyles = makeStyles( theme => ({
     points: {
       fontSize: '1.5em',
       fontWeight:'bolder',
+    },
+    weekContainer:{
+      textAlign: 'center',
+      margin: theme.spacing(1),          
     },
     pos: {
       marginBottom: 12,
@@ -177,21 +186,83 @@ const WeeklyMatches = ( {weekId, matches , id } ) => {
     )
 }
 
-const ListMatches = ({ weeks }) => {
+const WeekInfo = ({ week }) => {
+    let [ weekInfo , setWeekInfo ] = useState( null);
+    let [ isLoading, setLoading ] = useState( false );
+    let [ isMounted, setMounted ] = useState( false );
+    let [isError, setError] = useState( false );
+
+       
+    useEffect(  () => {
+        setLoading(true);
+        API.fetchMatches( week.weekId )
+        .then( response => {
+            console.log(response);
+            // let sortedData = response.data.sort( 
+            //     firstBy( 'weekId' )
+            // );
+            setWeekInfo( response.data );
+            setLoading(false);
+            setMounted( true );
+        }).catch(err => {
+            console.error(err);
+            setMounted( true );
+            setError( { error: true , message: err } )
+        });
+    }, []);
+
+    const classes = useStyles();
+
+    console.log('Week ', week.weekId ,' response:',weekInfo);
+
+
+    if( isLoading || !isMounted ){
+        return (
+        <Grid item xs={12} className={classes.weekContainer}>
+            <CircularProgress/>
+            <Typography>Cargando S#{week.weekId}</Typography>
+        </Grid>
+        )
+    }
+    else {
+        return (
+            <Grid item className={classes.weekContainer}>
+                <Paper className={ classes.paper }> Week Data </Paper>
+            </Grid>
+            )
+    }
+
+}
+
+const SelectedWeeks = ({ selectedWeeks }) => {
+    if( !selectedWeeks ){ 
+        return <Typography>Selecciona una semana</Typography>
+    } 
+    let activeWeeks = selectedWeeks.filter( w => w.isActive );
+
+     return activeWeeks.map( w => (
+            <Grid  key={w.weekId} container direction={'column'} alignItems={'center'} justify={'center'} > 
+                <WeekInfo week={ w }/> 
+            </Grid>
+            ) 
+        );
+
+}
+
+const ListMatches = ({ selectedWeeks, currentWeek }) => {
 
     const classes = useStyles();
     return ( 
-        <Paper className={ classes.paper}>
-            <Grid container direction={'row'} alignItems='center' spacing={2}>
-                    { 
-                        weeks.map( week => (
-                        <Grid item xs={6} key={ week._id} >
-                            <WeeklyMatches  weekId={week.weekId} matches={week.matches} id={ week._id } /> 
-                        </Grid>
-                        ))
-                    }
-            </Grid>
-        </Paper>
+        <Grid container direction={'row'} alignItems='center' spacing={2} >
+            <SelectedWeeks selectedWeeks={ selectedWeeks }/>
+                { /*
+                    weeks.map( week => (
+                    <Grid item xs={6} key={ week._id} >
+                        <WeeklyMatches  weekId={week.weekId} matches={week.matches} id={ week._id } /> 
+                    </Grid>
+                    ))
+                    */}
+        </Grid>
     )
 }
 
