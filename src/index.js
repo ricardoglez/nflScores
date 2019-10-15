@@ -23,7 +23,7 @@ const options = yargs
  console.log('Arguments :', arguments );
 
 const matchWrapper = '.in-progress-table.section tbody';
-const API = require('./API');
+const {API} = require('./API');
 let week = arguments.hasOwnProperty('week') ? arguments.week : 1;
 let season = arguments.hasOwnProperty('season') ? arguments.season : 2019;
 week = week > 17 ? 17 : week;

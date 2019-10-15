@@ -13,9 +13,10 @@ const API = {
         return axios.get(baseURL+'matches/'+week);
     },
     getCurrentWeek:( ) =>{
+        console.log('Get CurrentWeek');
         return axios.get(baseURL+'currentWeek');
     }
 
 }
 
-module.exports = API;
+module.exports = {API, baseURL };
