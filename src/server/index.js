@@ -53,7 +53,7 @@ const init = async() => {
                 try {
                     //console.log('HAndle get MAtches', req );
                     const week = req.params.week;
-                    let matches = await Matches.find( { weekId: { $eq: week } } );
+                    let matches = await Matches.findOne( { weekId: { $eq: week } } );
                     return reply.response(matches);
                 } 
                 catch( error ){
