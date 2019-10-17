@@ -80,33 +80,41 @@ const WeeklyMatches = ( {weekId, matches  } ) => {
     }, [])
 
     const totalPoints = () => {
+        if( !matches ){ return 0}
         return Object.keys(matches).reduce( (acc, curr) => {
             return acc + matches[curr].teams.home.score + matches[curr].teams.away.score 
         }, 0 );
     }
 
     const avgPoints = ( total ) => {
+        if( !matches ){ return 0}
         return Math.ceil(total / Object.keys(matches).length);
     }
 
     const renderMatches = () => {
         let obj= {}
         console.log(matches);
-        let list=  Object.keys( matches ).map( matchKey => {
-           let winner = matches[matchKey].teams.home.isWinner ? matches[matchKey].teams.home : matches[matchKey].teams.away;
-           let winnerType = matches[matchKey].teams.home.isWinner ? 'home' : 'away';
-           let loser = !matches[matchKey].teams.home.isWinner ? matches[matchKey].teams.home : matches[matchKey].teams.away;
-           let diff =  winner.score - loser.score;
-           obj[matchKey] = { diff: diff, winner: winner, winnerType:  winnerType } 
-           return (
-               <Grid item xs={12} key={ matchKey }>
-                   <Typography color="textSecondary"> { matches[matchKey].teams.home.name } vs { matches[matchKey].teams.away.name } </Typography>
-                   <Typography color="textSecondary"> <strong>{winner.name}</strong> ganó por</Typography>
-                   <Typography color="textSecondary" className={classes.importantNumber}> { diff } pts </Typography>
-               </Grid>
-           )
-        });
-        return list
+        if( matches ){
+            let list=  Object.keys( matches ).map( matchKey => {
+                let winner = matches[matchKey].teams.home.isWinner ? matches[matchKey].teams.home : matches[matchKey].teams.away;
+                let winnerType = matches[matchKey].teams.home.isWinner ? 'home' : 'away';
+                let loser = !matches[matchKey].teams.home.isWinner ? matches[matchKey].teams.home : matches[matchKey].teams.away;
+                let diff =  winner.score - loser.score;
+                obj[matchKey] = { diff: diff, winner: winner, winnerType:  winnerType } 
+                return (
+                    <Grid item xs={12} key={ matchKey }>
+                        <Typography color="textSecondary"> { matches[matchKey].teams.home.name } vs { matches[matchKey].teams.away.name } </Typography>
+                        <Typography color="textSecondary"> <strong>{winner.name}</strong> ganó por</Typography>
+                        <Typography color="textSecondary" className={classes.importantNumber}> { diff } pts </Typography>
+                    </Grid>
+                )
+             });
+             return list
+        }
+        else {
+            return ( <div>No Matches Available</div>)
+        }
+        
     }
 
     const initializeMatchesPonitsDiff = ( ) => {
@@ -229,7 +237,13 @@ const WeekInfo = ({ week }) => {
         return (
             <Grid item className={classes.weekContainer}>
                 <Paper className={ classes.paper }>
-                    <WeeklyMatches weekId={week.weekId} matches={weekInfo.matches}  />
+                    {
+                        weekInfo.matches 
+                        ? 
+                        <WeeklyMatches weekId={week.weekId} matches={weekInfo.matches}  />
+                        :
+                        <Typography>No hay información disponible</Typography>
+                    }
                 </Paper>
             </Grid>
             )
