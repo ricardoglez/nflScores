@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start:front": "parcel ./src/index.html",
-        "start:scrapper": "node ./src/index.js",
+        "start:scrapper": "node ./src/scrapper/index.js",
         "runServer": "nodemon ./src/server/index.js"
     },
     "dependencies": {
@@ -13,7 +13,7 @@
         "@material-ui/icons": "^4.4.3",
         "@material-ui/lab": "^4.0.0-alpha.29",
         "axios": "^0.24.0",
-        "cheerio": "^1.0.0-rc.3",
+        "cheerio": "^1.0.0-rc.10",
         "dotenv": "^10.0.0",
         "inert": "^5.1.3",
         "mongodb": "^4.1.3",
@@ -28,9 +28,13 @@
         "babel-core": "^6.26.3",
         "babel-preset-env": "^1.7.0",
         "babel-preset-react": "^6.24.1",
+        "chalk": "^4.1.2",
+        "figlet": "^1.5.2",
         "graphiql": "^1.4.6",
         "graphql": "^16.0.0",
         "hapi": "^18.1.0",
-        "parcel-bundler": "^1.12.4"
+        "inquirer": "^8.2.0",
+        "parcel-bundler": "^1.12.4",
+        "shelljs": "^0.8.4"
     }
 }
