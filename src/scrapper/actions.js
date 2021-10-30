@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { getCurrentWeek } = require('../scrapper');
+const { getCurrentWeek } = require('./api');
 
 const setYear = async () => {
   const answer = await inquirer.prompt(

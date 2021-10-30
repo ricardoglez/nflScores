@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const { MongoClient } = require('mongodb');
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_NAME}.jieo9.mongodb.net/test?retryWrites=true&w=majority`;

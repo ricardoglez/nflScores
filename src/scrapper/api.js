@@ -34,25 +34,32 @@ const extractScoresAndWinners = ( matchesList, week, $ ) => {
               if ( isNaN(parseInt(matchKey)) ) {
               return acc;
             }
-            const initialTeamVal = {
-              name: null,
-              score: 0,
-              record: null,
-              isWinner: false,
+            const initialTeamVal = () => {
+              return {
+                name: null,
+                score: 0,
+                record: null,
+                isWinner: false,
+              }
             };
 
             let teams = { 
-                home:initialTeamVal, 
-                away:initialTeamVal
-            }
-            const teamsElements = $(matchesList[matchKey]).find('tr');
-            teams.home.name= $(teamsElements[0]).find('>td.team>a.team').text();
-            teams.away.name= $(teamsElements[1]).find('>td.team>a.team').text();
+                home:initialTeamVal(), 
+                away:initialTeamVal()
+            };
+
+            const teamsElements = $(matchesList[matchKey]).find('tr>td.team');
+            
+            teams.home.name= $(teamsElements[0]).find('a.team.helper-team-name').text();
+            teams.away.name= $(teamsElements[1]).find('a.team.helper-team-name').text();
     
-            let scoresElements = $(matchesList[matchKey]).find('tr>td.total-score');
+            let scoresElements = $(matchesList[matchKey]).find('tr>td.total-score').toArray();
             teams.home.score = parseInt($(scoresElements[0]).text());
             teams.away.score = parseInt($(scoresElements[1]).text());
-    
+            
+            teams.home.record = $(teamsElements[0]).find('span.record').text();
+            teams.away.record = $(teamsElements[1]).find('span.record').text();
+            
             if( $(teamsElements[0]).find('span.marker').length >= 1 ){
                 teams.home.isWinner = true;
             }
@@ -62,7 +69,7 @@ const extractScoresAndWinners = ( matchesList, week, $ ) => {
             acc[matchIdx] =  { teams: teams, id: matchIdx, weekId: week }
             return acc;
             }, {});
-            res( {success: true , data: matches } );
+            res( {success: true , matches, weekId: week } );
         }
         catch( error ){
           log(error);
