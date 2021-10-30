@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const chalk = require("chalk");
-const { fetchScores, extractScoresAndWinners } = require('./api');
-const { main } = require("./actions");
-const { fetchMatches, storeMatches } = require('../API');
+import chalk from "chalk";
+import { fetchScores, extractScoresAndWinners } from './api';
+import { fetchMatches, storeMatches } from '../API';
+import main  from "./actions";
 const log = console.log;
 const title = chalk.white.bgGreen; 
 

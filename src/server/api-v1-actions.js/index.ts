@@ -1,8 +1,9 @@
 
-const Matches = require('../models/Matches');
-const { getCurrentWeek } = require('../../scrapper/api');
+import Matches from '../models/Matches';
+import { Request, Response } from 'express';
+import { getCurrentWeek } from '../../scrapper/api';
 
-const getWeekMatches = async (req, res) => {
+const getWeekMatches = async (req: Request, res: Response) => {
   const { weekId } = req.params;
   if(!weekId) {
     const err = new Error('error geting matches info weekId is required');
@@ -13,7 +14,7 @@ const getWeekMatches = async (req, res) => {
     let matches = await Matches.findOne( { weekId: { $eq: weekId } } );
     if (matches && matches.matches) {
       return res.json({success:true, matches: matches.matches});    
-    } 
+    }
     return res.json({success: true, matches: {}})
   } catch (error){
     console.error('Error getting matches per week',error);
@@ -21,7 +22,7 @@ const getWeekMatches = async (req, res) => {
   }
 };
 
-const getCurrentWeekMatches = async (req, res) => {
+const getCurrentWeekMatches = async (req: Request, res: Response) => {
   try {
     let currentWeek = await getCurrentWeek(); 
     return res.json({success:true, matches: currentWeek});
@@ -29,11 +30,11 @@ const getCurrentWeekMatches = async (req, res) => {
   catch( error ){
     console.error('Error GET currentWeek');
     console.error(error);
-    return reply.response(error).code(500);
+    return res.status(500).send(error);
   }
 };
 
-const postWeekMatches = async (req, res) => {
+const postWeekMatches = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { matches, weekId } = req.body;
     const storeMatches = new Matches({
@@ -41,15 +42,15 @@ const postWeekMatches = async (req, res) => {
       weekId
     });
     const savedMatches =  await storeMatches.save();
-    console.log('Saved Matches',savedMatches);
-    res.json({success:true, matches: savedMatches});
+    console.log('Saved Matches', savedMatches);
+    return res.json({success:true, matches: savedMatches});
   } catch (error) {
     console.error(' Error posting matches',error);
     throw error;
   }
 };
 
-module.exports = {
+export {
   getWeekMatches,
   getCurrentWeekMatches,
   postWeekMatches,
