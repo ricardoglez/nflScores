@@ -22,10 +22,11 @@ const getWeekMatches = async (req: Request, res: Response) => {
   }
 };
 
-const getCurrentWeekMatches = async (req: Request, res: Response) => {
+const getCurrentWeekId = async (req: Request, res: Response) => {
   try {
-    let currentWeek = await getCurrentWeek(); 
-    return res.json({success:true, matches: currentWeek});
+    console.log('get curretnt week Id');
+    let currentWeek = await getCurrentWeek();
+    return res.json({success:true, currentWeek: currentWeek.currentWeek});
   } 
   catch( error ){
     console.error('Error GET currentWeek');
@@ -52,6 +53,6 @@ const postWeekMatches = async (req: Request, res: Response): Promise<Response> =
 
 export {
   getWeekMatches,
-  getCurrentWeekMatches,
+  getCurrentWeekId,
   postWeekMatches,
 }

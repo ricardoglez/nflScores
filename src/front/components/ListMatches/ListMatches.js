@@ -7,14 +7,14 @@ import {
     CardContent,
     Typography,
     Paper,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     CircularProgress,
 } from '@material-ui/core';
 import ExpandMoreIcon  from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles';
-import {API} from '../../../API';
+import { fetchMatches } from '../../../API';
 import useFetchMatches from '../../../hooks/useFetchMatches';
 
 const useStyles = makeStyles( theme => ({
@@ -167,20 +167,20 @@ const WeeklyMatches = ( {weekId, matches  } ) => {
                     </Grid>
                 </Grid>
                 <Grid container direction='row'>
-                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                        <ExpansionPanelSummary
+                    <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                        <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                         >
                         <Typography className={classes.heading}>Resultados por partido</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
+                        </AccordionSummary>
+                        <AccordionDetails>
                             <Grid container direction='column'>
                                 { renderMatches()}
                             </Grid>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
+                        </AccordionDetails>
+                    </Accordion>
                 </Grid>
             </CardContent>
         </Card>        
@@ -196,7 +196,7 @@ const WeekInfo = ({ week }) => {
        
     useEffect(  () => {
         setLoading(true);
-        API.fetchMatches( week.weekId )
+        fetchMatches( week.weekId )
         .then( response => {
             console.log(response);
             // let sortedData = response.data.sort( 

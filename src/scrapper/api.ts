@@ -33,7 +33,7 @@ const getCurrentWeek = async (): Promise<any> => {
         const scoresData = await axios.get( requestURL );
         let $ = cheerio.load( scoresData.data );
         let currentWeek = $('.ToggleContainer-button.is-active').text().match(/\d/)[0];
-        return {success:true , currentWeek: currentWeek}
+        return { success:true , currentWeek }
     }
     catch(error){
         return {success:false, error}
