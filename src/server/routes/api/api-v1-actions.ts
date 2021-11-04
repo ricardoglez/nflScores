@@ -1,7 +1,7 @@
 
-import Matches from '../models/Matches';
+import Matches from '../../models/Matches';
 import { Request, Response } from 'express';
-import { getCurrentWeek } from '../../scrapper/api';
+import { getCurrentWeek } from '../../../scrapper/api';
 
 const getWeekMatches = async (req: Request, res: Response) => {
   const { weekId } = req.params;

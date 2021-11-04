@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-const MyHome = () => {
+const MyHome = (props) => {
     // const [ matchesList, setMatches ] = useState( null );
     const [ isMounted, setMounted ]   = useState( false );
     const [ currentWeek, setCurrentWeek ] = useState( null );
@@ -175,3 +175,4 @@ const MyHome = () => {
 }
 
 export default MyHome;
+

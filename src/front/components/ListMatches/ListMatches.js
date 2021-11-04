@@ -185,7 +185,7 @@ const WeeklyMatches = ( {weekId, matches  } ) => {
             </CardContent>
         </Card>        
     )
-}
+};
 
 const WeekInfo = ({ week }) => {
     let [ weekInfo , setWeekInfo ] = useState( null);

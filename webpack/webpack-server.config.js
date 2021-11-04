@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
   mode: "development",
   name: "deployment",
-  entry: path.resolve(__dirname, '../src/server.ts'),
+  entry: path.resolve(__dirname, '../src/index.ts'),
   target: "node",
   devtool: 'hidden-source-map',
   externals: [nodeExternals()],
