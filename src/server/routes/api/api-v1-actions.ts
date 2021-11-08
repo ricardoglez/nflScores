@@ -3,19 +3,14 @@ import Matches from '../../models/Matches';
 import { Request, Response } from 'express';
 import { getCurrentWeek } from '../../../scrapper/api';
 
-const getWeekMatches = async (req: Request, res: Response) => {
-  const { weekId } = req.params;
-  if(!weekId) {
-    const err = new Error('error geting matches info weekId is required');
-    console.log(err)
-    throw err;
-  }
+const getWeekMatches = async (weekId: number) => {
   try {
-    let matches = await Matches.findOne( { weekId: { $eq: weekId } } );
+    const matches = await Matches.findOne( { weekId: { $eq: weekId } } );
+    console.log(matches);
     if (matches && matches.matches) {
-      return res.json({success:true, matches: matches.matches});    
+      return {matches: matches.matches};
     }
-    return res.json({success: true, matches: {}})
+    return {matches: {}};
   } catch (error){
     console.error('Error getting matches per week',error);
     throw error;
@@ -25,9 +20,9 @@ const getWeekMatches = async (req: Request, res: Response) => {
 const getCurrentWeekId = async (req: Request, res: Response) => {
   try {
     console.log('get curretnt week Id');
-    let currentWeek = await getCurrentWeek();
+    const currentWeek = await getCurrentWeek();
     return res.json({success:true, currentWeek: currentWeek.currentWeek});
-  } 
+  }
   catch( error ){
     console.error('Error GET currentWeek');
     console.error(error);

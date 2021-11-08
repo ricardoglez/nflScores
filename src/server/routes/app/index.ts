@@ -8,9 +8,9 @@ const handler = nextapp.getRequestHandler();
 router.get('/', (req, res) => {
   const { pathname, query } = parseUrl(req.url, true);
   console.log('App server home page', pathname, query);
-    if (pathname === 'a' || pathname === 'b')
-        nextapp.render(req, res, pathname, query);
-    else
+  if (pathname === 'a' || pathname === 'b')
+    nextapp.render(req, res, pathname, query);
+  else
         handler(req, res, parseUrl(req.url, true));
 });
 
