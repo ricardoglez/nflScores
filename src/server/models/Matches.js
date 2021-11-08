@@ -6,4 +6,4 @@ const MatchesSchema = new Schema({
     weekId   : Number
 });
 
-module.exports = mongoose.model( 'Matches', MatchesSchema );
+module.exports = mongoose.model('Matches') || mongoose.model( 'Matches', MatchesSchema );

@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  getCurrentWeekId, 
+  getCurrentWeekId,
   getWeekMatches,
   postWeekMatches
 } from './api-v1-actions';

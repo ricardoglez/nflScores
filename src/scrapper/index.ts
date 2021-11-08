@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-import chalk from "chalk";
+import chalk from 'chalk';
 import { fetchScores, extractScoresAndWinners } from './api';
 import { fetchMatches, storeMatches } from '../API';
-import main  from "./actions";
+import main  from './actions';
 const log = console.log;
-const title = chalk.white.bgGreen; 
+const title = chalk.white.bgGreen;
 
 const matchWrapper = '.in-progress-table.section tbody';
 
 const init = async () => {
-  log(title("nfl socre scrapper"));
-  log(chalk.green("Usage: This tool scraps the scores of previous weeks in the NFL"));
+  log(title('nfl socre scrapper'));
+  log(chalk.green('Usage: This tool scraps the scores of previous weeks in the NFL'));
   try {
     const inputData = await main();
     const weekMatchesResult = await fetchMatches(inputData.week);
@@ -19,13 +19,13 @@ const init = async () => {
     console.log(Object.keys(matches).length);
 
     if (Object.keys(matches).length > 0) {
-        log( chalk.blue(`${Object.keys(matches).length} matches has been found in db!`));  
-        return {success: true, data: weekMatchesResult};
+      log( chalk.blue(`${Object.keys(matches).length} matches has been found in db!`));
+      return {success: true, data: weekMatchesResult};
     } else {
       const $ = await fetchScores(inputData);
       const matchesElements = $(matchWrapper);
 
-      log( chalk.blue(`Scrapper found ${matchesElements.length} matches!`));  
+      log( chalk.blue(`Scrapper found ${matchesElements.length} matches!`));
       const scoresAndWinnersResult = await extractScoresAndWinners(matchesElements, inputData.week, $);
       log(chalk.green('Extracted match details'));
       const storeData = { matches: scoresAndWinnersResult.matches, weekId: scoresAndWinnersResult.weekId };
@@ -36,7 +36,7 @@ const init = async () => {
       return;
     }
   } catch (error){
-    console.error(chalk.red(error));  
+    console.error(chalk.red(error));
     throw error;
   }
 };

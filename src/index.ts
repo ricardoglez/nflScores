@@ -31,7 +31,6 @@ nextApp.prepare().then( async() => {
 
     server.get('/*', (req, res)  => {
       const { pathname, query } = parseUrl(req.url, true);
-      console.log('App server star',pathname, query);
       return  nextApp.render(req, res, pathname, query);
       // return handle(req, res, parseUrl(req.url, true));
     });
