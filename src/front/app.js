@@ -2,7 +2,9 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import MyHome from './components/MyHome';
 
-const MyApp = () => {
+const MyApp = (props) => {
+
+    console.log('props', props)
     return ( <MyHome />
     )
 }

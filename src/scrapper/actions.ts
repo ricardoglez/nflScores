@@ -1,13 +1,13 @@
-const inquirer = require('inquirer');
-const { getCurrentWeek } = require('./api');
+import inquirer from 'inquirer';
+import { getCurrentWeek } from './api';
 
-const setYear = async () => {
+const setYear = async () : Promise<string | number> => {
   const answer = await inquirer.prompt(
     {
       type: "input",
       name:"currentYear",
       message:" Would you like to scrap this season scores (2021) y/n ", 
-      filter(val) {
+      filter(val: any) {
         if (!val) {
           return "y";
         }
@@ -19,12 +19,12 @@ const setYear = async () => {
   
 };
 
-const setCustomYear = async () => {
+const setCustomYear = async (): Promise<number> => {
   const answer = await inquirer.prompt({
     type: "input",
     name: "customYear",
     message: "Select a Season",
-    filter(val) {
+    filter(val: any) {
       if ( !val || isNaN(val) ) {
        return 2021; 
       }
@@ -34,12 +34,12 @@ const setCustomYear = async () => {
   return answer.customYear;
 };
 
-const setWeek = async (season) => {
+const setWeek = async (season: number): Promise<number> => {
   const answer = await inquirer.prompt({
     type: "input",
     name: "week",
     message: `Select a week of the ${season} season `,
-    async filter (val) {
+    async filter (val: any) {
       if (!val || isNaN(val)) {
         // If week is not provided use the current week
         const result = await getCurrentWeek();
@@ -52,10 +52,10 @@ const setWeek = async (season) => {
   return answer.week;
 }
 
-const startPropmpts = async () => {
+const startPropmpts = async (): Promise<any> => {
   try {
     const currentYear = await setYear();
-    let season = "2021"; 
+    let season = 2021; 
     let week = 1;
     if ( currentYear === "y" ) {
       week = await setWeek(season);
@@ -63,11 +63,10 @@ const startPropmpts = async () => {
       season = await setCustomYear();
       week = await setWeek(season);
     }
-    return { week, season }
+    return { week, season };
   } catch (error) {
     console.log('Error something unexpected happened', error);
   }
-  
 };
 
 const main = async () => {
@@ -75,6 +74,4 @@ const main = async () => {
   return inputs;
 };
 
-module.exports = {
-  main
-}
+export default main;

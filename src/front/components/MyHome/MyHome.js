@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { API } from '../../../API';
+import { getCurrentWeek } from '../../../API';
 import ErrorComponent from '../ErrorComponent';
 import ListMatches from '../ListMatches';
 import { Grid, CircularProgress, Typography } from '@material-ui/core';
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-const MyHome = () => {
+const MyHome = (props) => {
     // const [ matchesList, setMatches ] = useState( null );
     const [ isMounted, setMounted ]   = useState( false );
     const [ currentWeek, setCurrentWeek ] = useState( null );
@@ -100,7 +100,7 @@ const MyHome = () => {
     const classes = useStyles();
 
       useEffect( () => {
-        API.getCurrentWeek()
+        getCurrentWeek()
           .then( response => {
             setCurrentWeek( parseInt( response.data.currentWeek ) );
             initializeWvailableWeeks( parseInt( response.data.currentWeek ) )
@@ -175,3 +175,4 @@ const MyHome = () => {
 }
 
 export default MyHome;
+
