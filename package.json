@@ -44,7 +44,7 @@
         "graphiql": "^1.4.7",
         "graphql": "^16.0.0",
         "inquirer": "^8.2.0",
-        "shelljs": "^0.8.4",
+        "shelljs": "^0.8.5",
         "terser-webpack-plugin": "^5.2.4",
         "ts-loader": "^9.2.6",
         "tslint": "^6.1.3",
